@@ -10,7 +10,7 @@ pubnubDemo.addListener({
         output.appendChild(document.createTextNode(event.message.message))
         linebreak = document.createElement("br");
         output.appendChild(linebreak);
-        let orientation = document.querySelector('#getLocation').value;
+        let orientation = document.querySelector('#getLocation').innerHTML;
         let dir = parseInt(orientation);
         if (dir != null) {
         let direction;
