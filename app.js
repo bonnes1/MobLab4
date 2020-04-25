@@ -1,22 +1,33 @@
-var pubnubDemo = new PubNub({
+let pubnubDemo = new PubNub({
     publishKey: 'pub-c-a8993ad4-41c7-4c80-9946-717678ce1c21',
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
 });
 pubnubDemo.addListener({
-    message:function(message){
-        console.log(message())
+    message:function(event){
+        let output = document.getElementById('get')
+        output.appendChild(document.createTextNode(event.message.message))
+        linebreak = document.createElement("br");
+        output.appendChild(linebreak);
     }
 });
 
 pubnubDemo.subscribe({
-    channels: ['north','south','west','east']
+    channels: ['demo_tutorial']
 });
 
+let sendMsg =()=> {
+    let input = document.querySelector('.message');
+    console.log(input.value);
+    if( input.value !== "") {
+        pubnubDemo.publish({ message: { "message" : input.value }, channel: 'demo_tutorial' });
+    }
+    input.value = "";
+};
 function orientationDetection() {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission()
-            .then(permissionState => {
-                if (permissionState === 'granted') {
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
                     window.addEventListener('deviceorientation', handleOrientation, true);
                 }
             })
@@ -33,20 +44,25 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
         console.log(heading)
     }
+    let direction = "";
+    if(45>heading>315){
+        direction = "North"
+    }
+    else if (45<heading<135) {
+        direction = "East"
+    }
+    else if (135<heading<225) {
+        direction = "South"
+    }
+    else if (225<heading<315) {
+        direction = "West"
+    }
     console.log(heading);
-    document.querySelector("#getLocation").innerHTML = heading;
+    document.querySelector("#getLocation").innerHTML = heading.toFixed(3) + direction;
+    //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
 
-let sendMsg =()=> {
-    let input = document.querySelector('.message');
-    console.log(input.value)
-    let output = document.querySelector('#getMsg')
-    if(input.value !== "") {
-        output.innerHTML += `<br/>` + input.value;
-        input.value ="";
-    }
-};
 
 
 /*let input = document.querySelector('.message');
