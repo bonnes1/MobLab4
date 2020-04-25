@@ -3,23 +3,84 @@ let pubnubDemo = new PubNub({
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5'
 });
 
-
+let {south,north,east,west} = [];
 pubnubDemo.addListener({
     message:function(event){
-        let output = document.getElementById('get');
-        //if ( channel === event.channel) {}
-            output.appendChild(document.createTextNode(event.channel + ": " + event.message.message));
-            linebreak = document.createElement("br");
-            output.appendChild(linebreak);
-
+        saveEvent(event);
+        window.addEventListener('deviceorientation', handleData, true);
     }
 });
-window.setInterval(function(){
-    pubnubDemo.subscribe({
-        channels: [getChannel()]
-    });
-}, 500);
 
+saveEvent = (data) => {
+    if(data.channel === 'North')
+    {
+        north.push(data);
+        return north
+    }
+    if(data.channel === 'West')
+    {
+        west.push(data);
+        return west;
+    }
+    if(data.channel === 'South')
+    {
+        south.push(data);
+        return south
+    }
+    if(data.channel === 'East')
+    {
+        east.push(data);
+        return east
+    }
+
+};
+pubnubDemo.subscribe({
+    channels: ['South','North','West','East']
+});
+handleData = () => {
+    let output = document.getElementById('get');
+    let channelName = document.getElementById('channelName');
+    if(east.length !== 0){
+    if (getChannel() === 'North') {
+        channelName.appendChild(document.createTextNode(north[0].channel));
+        north.forEach(item => {
+            output.appendChild(document.createTextNode(item.message.message));
+            linebreak = document.createElement("br");
+            output.appendChild(linebreak);
+        })
+    }
+    }
+    else if (getChannel() === 'South') {
+        channelName.appendChild(document.createTextNode(south[0].channel));
+        if(east.length !== 0) {
+            south.forEach(item => {
+                output.appendChild(document.createTextNode(item.message.message));
+                linebreak = document.createElement("br");
+                output.appendChild(linebreak);
+            })
+        }
+    }
+    else if (getChannel() === 'West') {
+        channelName.appendChild(document.createTextNode(west[0].channel));
+        if(east.length !== 0) {
+            west.forEach(item => {
+                output.appendChild(document.createTextNode(item.message.message));
+                linebreak = document.createElement("br");
+                output.appendChild(linebreak);
+            })
+        }
+    }
+    else if (getChannel() === 'East') {
+        channelName.appendChild(document.createTextNode(east[0].channel));
+        if(east.length !== 0){
+            east.forEach( item => {
+                output.appendChild(document.createTextNode(item.message.message));
+                linebreak = document.createElement("br");
+                output.appendChild(linebreak);
+            })
+        }
+    }
+};
 
 getChannel = () => {
     let channel;
@@ -30,7 +91,6 @@ getChannel = () => {
             channel = "North"
         }
         if (45<dir && dir <135) {
-            console.log(dir)
             channel = "East"
         }
         if (dir >135 && dir < 225) {
@@ -47,7 +107,7 @@ getChannel = () => {
 };
 let sendMsg =()=> {
     let input = document.querySelector('.message');
-    console.log(input.value);
+    //console.log(input.value);
     if( input.value !== "") {
         pubnubDemo.publish({ message: { "message" : input.value }, channel: getChannel() }).catch(err => console.log(err.message));
     }
@@ -76,9 +136,11 @@ function handleOrientation(event)
     }
     console.log(heading);
     document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
+
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
+
 
 
 
