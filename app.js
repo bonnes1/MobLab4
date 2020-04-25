@@ -46,21 +46,21 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
         console.log(heading)
     }
-
-    if(45>heading>315){
+    let dir = heading.toFixed([0]);
+    if(45>dir>315){
         direction = "North"
     }
-    else if (45<heading<135) {
+    else if (45<dir<135) {
         direction = "East"
     }
-    else if (135<heading<225) {
+    else if (135<dir<225) {
         direction = "South"
     }
-    else if (225<heading<315) {
+    else if (225<dir<315) {
         direction = "West"
     }
     console.log(heading);
-    document.querySelector("#getLocation").innerHTML = heading.toFixed(3) + direction;
+    document.querySelector("#getLocation").innerHTML = dir + " " + direction;
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
