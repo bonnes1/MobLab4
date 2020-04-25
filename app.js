@@ -13,8 +13,8 @@ pubnubDemo.addListener({
         let orientation = document.querySelector('#getLocation').value;
         let dir = parseInt(orientation);
         if (dir != null) {
-        let direction = "";
-            if(45>dir || 360>dir >315){
+        let direction;
+            if(45 > dir || dir >315){
                 direction = "North"
             }
             if (45<dir && dir <135) {
