@@ -12,20 +12,24 @@ pubnubDemo.addListener({
         output.appendChild(linebreak);
         let orientation = document.querySelector('#getLocation').value;
         let dir = parseInt(orientation);
+        if (dir != null) {
         let direction = "";
-        if(45>dir>315){
-            direction = "North"
+            if(45>dir || 360>dir >315){
+                direction = "North"
+            }
+            if (45<dir && dir <135) {
+                console.log(dir)
+                direction = "East"
+            }
+            if (dir >135 && dir < 225) {
+                direction = "South"
+            }
+            if (dir >225 && dir <315) {
+                direction = "West"
+            }
+            console.log(direction)
         }
-        else if (45<dir<135) {
-            direction = "East"
-        }
-        else if (135<dir<225) {
-            direction = "South"
-        }
-        else if (225<dir<315) {
-            direction = "West"
-        }
-        document.querySelector('.direction').innerHTML = direction;
+
     }
 });
 
