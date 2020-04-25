@@ -25,7 +25,7 @@ pubnubDemo.addListener({
         else if (225<dir<315) {
             direction = "West"
         }
-        orientation.innerHTML = direction;
+        document.querySelector('.direction').innerHTML = direction;
     }
 });
 
