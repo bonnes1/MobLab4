@@ -3,13 +3,29 @@ let pubnubDemo = new PubNub({
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
 });
 
-let direction = "";
+
 pubnubDemo.addListener({
     message:function(event){
         let output = document.getElementById('get')
         output.appendChild(document.createTextNode(event.message.message))
         linebreak = document.createElement("br");
         output.appendChild(linebreak);
+        let orientation = document.querySelector('.getLocation').value;
+        let dir = parseInt(orientation);
+        let direction = "";
+        if(45>dir>315){
+            direction = "North"
+        }
+        else if (45<dir<135) {
+            direction = "East"
+        }
+        else if (135<dir<225) {
+            direction = "South"
+        }
+        else if (225<dir<315) {
+            direction = "West"
+        }
+        orientation.innerHTML = direction;
     }
 });
 
@@ -46,21 +62,8 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
         console.log(heading)
     }
-    let dir = heading.toFixed([0]);
-    if(45>dir>315){
-        direction = "North"
-    }
-    else if (45<dir<135) {
-        direction = "East"
-    }
-    else if (135<dir<225) {
-        direction = "South"
-    }
-    else if (225<dir<315) {
-        direction = "West"
-    }
     console.log(heading);
-    document.querySelector("#getLocation").innerHTML = dir + " " + direction;
+    document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
