@@ -1,21 +1,25 @@
 let pubnubDemo = new PubNub({
     publishKey: 'pub-c-a8993ad4-41c7-4c80-9946-717678ce1c21',
-    subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
+    subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5'
 });
 
 
 pubnubDemo.addListener({
     message:function(event){
         let output = document.getElementById('get');
-        output.appendChild(document.createTextNode(event.channel + ": " + event.message.message));
-        linebreak = document.createElement("br");
-        output.appendChild(linebreak);
+        //if ( channel === event.channel) {}
+            output.appendChild(document.createTextNode(event.channel + ": " + event.message.message));
+            linebreak = document.createElement("br");
+            output.appendChild(linebreak);
+
     }
 });
+window.setInterval(function(){
+    pubnubDemo.subscribe({
+        channels: [getChannel()]
+    });
+}, 500);
 
-pubnubDemo.subscribe({
-    channels: ['North','South','West','East']
-});
 
 getChannel = () => {
     let channel;
@@ -35,8 +39,6 @@ getChannel = () => {
         if (dir >225 && dir <315) {
             channel = "West"
         }
-        let d = document.querySelector('.direction');
-        d.innerHTML = channel ;
     }
     else {
         channel = 'demo_tutorial'
