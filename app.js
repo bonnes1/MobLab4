@@ -27,7 +27,7 @@ pubnubDemo.addListener({
             if (dir >225 && dir <315) {
                 direction = "West"
             }
-            console.log(direction)
+            document.querySelector('.direction').innerHTML = direction;
         }
 
     }
