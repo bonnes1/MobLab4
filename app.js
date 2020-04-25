@@ -2,6 +2,8 @@ let pubnubDemo = new PubNub({
     publishKey: 'pub-c-a8993ad4-41c7-4c80-9946-717678ce1c21',
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
 });
+
+let direction = "";
 pubnubDemo.addListener({
     message:function(event){
         let output = document.getElementById('get')
@@ -44,7 +46,7 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
         console.log(heading)
     }
-    let direction = "";
+
     if(45>heading>315){
         direction = "North"
     }
