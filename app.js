@@ -3,17 +3,17 @@ let pubnubDemo = new PubNub({
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
 });
 
-
+let direction;
 pubnubDemo.addListener({
     message:function(event){
-        let output = document.getElementById('get')
-        output.appendChild(document.createTextNode(event.message.message))
+        let output = document.getElementById('get');
+        output.appendChild(document.createTextNode(event.channel + ": " + event.message.message));
         linebreak = document.createElement("br");
         output.appendChild(linebreak);
         let orientation = document.querySelector('#getLocation').innerHTML;
         let dir = parseInt(orientation);
         if (dir != null) {
-        let direction;
+
             if(45 > dir || dir >315){
                 direction = "North"
             }
@@ -34,14 +34,14 @@ pubnubDemo.addListener({
 });
 
 pubnubDemo.subscribe({
-    channels: ['demo_tutorial']
+    channels: ['North','South','West','East']
 });
 
 let sendMsg =()=> {
     let input = document.querySelector('.message');
     console.log(input.value);
     if( input.value !== "") {
-        pubnubDemo.publish({ message: { "message" : input.value }, channel: 'demo_tutorial' });
+        pubnubDemo.publish({ message: { "message" : input.value }, channel: direction });
     }
     input.value = "";
 };
