@@ -3,33 +3,13 @@ let pubnubDemo = new PubNub({
     subscribeKey: 'sub-c-75198444-7c9a-11ea-87e8-c6dd1f7701c5\n'
 });
 
-let direction;
+
 pubnubDemo.addListener({
     message:function(event){
         let output = document.getElementById('get');
         output.appendChild(document.createTextNode(event.channel + ": " + event.message.message));
         linebreak = document.createElement("br");
         output.appendChild(linebreak);
-        let orientation = document.querySelector('#getLocation').innerHTML;
-        let dir = parseInt(orientation);
-        if (dir != null) {
-
-            if(45 > dir || dir >315){
-                direction = "North"
-            }
-            if (45<dir && dir <135) {
-                console.log(dir)
-                direction = "East"
-            }
-            if (dir >135 && dir < 225) {
-                direction = "South"
-            }
-            if (dir >225 && dir <315) {
-                direction = "West"
-            }
-            document.querySelector('.direction').innerHTML = direction;
-        }
-
     }
 });
 
@@ -37,11 +17,37 @@ pubnubDemo.subscribe({
     channels: ['North','South','West','East']
 });
 
+getChannel = () => {
+    let channel;
+    let orientation = document.querySelector('#getLocation').innerHTML;
+    let dir = parseInt(orientation);
+    if (dir != null) {
+        if(45 > dir || dir >315){
+            channel = "North"
+        }
+        if (45<dir && dir <135) {
+            console.log(dir)
+            channel = "East"
+        }
+        if (dir >135 && dir < 225) {
+            channel = "South"
+        }
+        if (dir >225 && dir <315) {
+            channel = "West"
+        }
+        let d = document.querySelector('.direction');
+        d.innerHTML = channel ;
+    }
+    else {
+        channel = 'demo_tutorial'
+    }
+    return channel
+};
 let sendMsg =()=> {
     let input = document.querySelector('.message');
     console.log(input.value);
     if( input.value !== "") {
-        pubnubDemo.publish({ message: { "message" : input.value }, channel: direction });
+        pubnubDemo.publish({ message: { "message" : input.value }, channel: getChannel() }).catch(err => console.log(err.message));
     }
     input.value = "";
 };
