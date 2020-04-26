@@ -8,28 +8,44 @@ let {south,north,east,west} = [];
 pubnubDemo.subscribe({
     channels: ['South','North','West','East']
 });
+
 saveEvent = (data) => {
     if(data.channel === 'North')
     {
         north.push(data);
-        return north
     }
     if(data.channel === 'West')
     {
         west.push(data);
-        return west
     }
     if(data.channel === 'South')
     {
         south.push(data);
-        return south
     }
     if(data.channel === 'East')
     {
         east.push(data);
-        return east
     }
 
+};
+
+directionArray =(channel) => {
+    if(channel === 'North')
+    {
+        return north
+    }
+    if(channel === 'West')
+    {
+        return west
+    }
+    if(channel === 'South')
+    {
+        return south
+    }
+    if(channel === 'East')
+    {
+        return east
+    }
 };
 
 
@@ -39,7 +55,7 @@ handleMsg= (array) => {
     let channelName = document.getElementById('channelName');
     if (array.length !== 0) {
             channelName.appendChild(document.createTextNode(array[0].channel));
-            north.forEach(item => {
+            array.forEach(item => {
                 let msg = document.createElement('div');
                 msg.setAttribute('id', 'msg');
                 msg.appendChild(document.createTextNode(item.message.message));
@@ -49,6 +65,13 @@ handleMsg= (array) => {
     }
 };
 
+pubnubDemo.addListener({
+    message:function(event){
+        saveEvent(event);
+    }
+});
+
+
 getChannel = () => {
     let channel;
     let orientation = document.querySelector('#getLocation').innerHTML;
@@ -56,22 +79,21 @@ getChannel = () => {
     if (dir != null) {
         if(45 > dir || dir >315){
             channel = "North";
-            return channel
         }
         if (45<dir && dir <135) {
             channel = "East";
-            return channel
         }
         if (dir >135 && dir < 225) {
             channel = "South";
-            return channel
+
         }
         if (dir >225 && dir <315) {
             channel = "West";
-            return channel
         }
+        return channel
     }
 };
+
 let sendMsg =()=> {
     let input = document.querySelector('.message');
     let channel = getChannel();
@@ -81,13 +103,6 @@ let sendMsg =()=> {
     }
     input.value = null;
 };
-
-pubnubDemo.addListener({
-    message:function(event){
-        saveEvent(event);
-    }
-});
-
 
 function orientationDetection() {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -108,9 +123,8 @@ function handleOrientation(event)
     var heading = event.alpha;
     if (typeof event.webkitCompassHeading !== "undefined") {
         heading = event.webkitCompassHeading;
-        console.log(heading)
     }
-    handleMsg();
+    handleMsg(directionArray(getChannel()));
     document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
 
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
