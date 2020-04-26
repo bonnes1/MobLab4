@@ -1,9 +1,59 @@
+html body {
+    font-family: 'Font Awesome 5 Brands', 'Font Awesome 5 Free'
+}
 .container {
     display: block;
     text-align: center;
+    border: 1px solid #bbb;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 60%;
+    overflow: auto;
+    background-color: rgba(28, 148, 196, 0.17);
+    border-radius: 10px;
 
+}
+#bottom {
+    position: absolute;
+    bottom: 25%;
+    left: 15%;
 }
 .center {
     text-align: center;
 }
-#getLocation
+.message {
+    border-radius: 4px;
+    display: inline-block;
+    zoom: 1;
+    padding: 6px 20px;
+    margin: 0;
+    border: 1px solid #bbb;
+}
+#btn {
+    border-radius: 4px;
+    display: inline-block;
+    zoom: 1;
+    padding: 6px 20px;
+    margin: 0;
+    border: 1px solid #bbb;
+    overflow: visible;
+    font: bold 13px arial, helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #555;
+
+}
+#btn:hover{
+    transition: .7ms ease-in-out;
+    background-color: #d3dfff;
+}
+.location {
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+    border: 4px outset rgba(156, 159, 164, 0.66);
+    border-radius: 40px;
+}
+
+
+

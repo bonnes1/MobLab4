@@ -75,13 +75,13 @@ getChannel = () => {
     let orientation = document.querySelector('#getLocation').innerHTML;
     let dir = parseInt(orientation);
     if (dir != null) {
-        if(45 > dir || dir >315){
+        if(45 >= dir || dir >=315){
             channel = "North";
         }
-        if (45<dir && dir <135) {
+        if (45<dir && dir <=135) {
             channel = "East";
         }
-        if (dir >135 && dir < 225) {
+        if (dir >=135 && dir <= 225) {
             channel = "South";
 
         }

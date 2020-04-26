@@ -11,22 +11,24 @@
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
 </head>
 <body>
-    <h2 class="center" style="font-weight: bold">Chat room</h2>
+    <h2 class="center" style="font-weight: bold">Hej - Chat room</h2>
     <div style="padding-bottom: 2rem" class="center">
-        <button  onclick="orientationDetection()">Set orientation</button>
+        <button  id="btn" onclick="orientationDetection()">Set orientation</button>
+        <div class="location" >
+            <div id="getLocation">n/a</div>
+        </div>
     </div>
     <div class="container">
-        <div>
-            <input class="message" type="text" name="msg" placeholder="Write message">
-            <button id="msg-button" onclick="sendMsg();">Send Message</button>
-        </div>
-        <div>
-            <h3 id="channelName">Channel</h3>
+        <h3 id="channelName">Channel</h3>
+        <div class="wrapper">
             <div id ="get"></div>
         </div>
+        <div id="bottom">
+            <input class="message" type="text" name="msg" placeholder="Write message">
+            <button id="btn" onclick="sendMsg();">Send Message</button>
+        </div>
+
     </div>
-    <div style="margin-left:10rem;display:block;width:25px;border:2px solid black">
-        <div id="getLocation">n/a</div>
-    </div>
+
 </body>
 </html>
