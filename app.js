@@ -52,15 +52,15 @@ directionArray =(channel) => {
 handleMsg= (array) => {
     let output = document.getElementById('get');
     output.innerHTML = "";
-    if (array.length !== 0) {
-            array.forEach(item => {
-                let msg = document.createElement('div');
-                msg.setAttribute('id', 'msg');
-                msg.appendChild(document.createTextNode(item.message.message));
-                //linebreak = document.createElement("br");
-                output.appendChild(msg);
-            })
-    }
+    array.forEach(item => {
+        let msg = document.createElement('div');
+        msg.setAttribute('id', 'msg');
+        msg.appendChild(document.createTextNode(item.message.message));
+        //linebreak = document.createElement("br");
+        output.appendChild(msg);
+    })
+
+
 };
 
 pubnubDemo.addListener({
