@@ -54,6 +54,9 @@ html body {
     border: 4px outset rgba(156, 159, 164, 0.66);
     border-radius: 40px;
 }
+.hide {
+    display: none;
+}
 
 
 
