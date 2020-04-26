@@ -13,23 +13,27 @@ saveEvent = (data) => {
     if(data.channel === 'North')
     {
         north.push(data);
+        return north
     }
     if(data.channel === 'West')
     {
         west.push(data);
+        return west
     }
     if(data.channel === 'South')
     {
         south.push(data);
+        return south
     }
     if(data.channel === 'East')
     {
         east.push(data);
+        return east
     }
 
 };
 
-directionArray =(channel) => {
+/*directionArray =(channel) => {
     let test = document.querySelector('testing');
     test.appendChild(document.createTextNode(channel + " - " + north + west + east + south )) ;
     if(channel === 'North')
@@ -49,7 +53,7 @@ directionArray =(channel) => {
         return east
     }
 };
-
+*/
 
 handleMsg= (array) => {
     let output = document.getElementById('get');
@@ -65,7 +69,7 @@ handleMsg= (array) => {
 
 pubnubDemo.addListener({
     message:function(event){
-        saveEvent(event);
+        handleMsg(saveEvent(event));
     }
 });
 
@@ -125,7 +129,6 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
     }
     document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
-    handleMsg(directionArray(getChannel()));
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
