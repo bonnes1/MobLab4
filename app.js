@@ -52,8 +52,6 @@ directionArray =(channel) => {
 handleMsg= (array) => {
     let output = document.getElementById('get');
     output.innerHTML = "";
-    let channelName = document.getElementById('channelName');
-    channelName.appendChild(document.createTextNode(array[0].channel));
     if (array.length !== 0) {
             array.forEach(item => {
                 let msg = document.createElement('div');
@@ -90,6 +88,8 @@ getChannel = () => {
         if (dir >225 && dir <315) {
             channel = "West";
         }
+        let channelName = document.getElementById('channelName');
+        channelName.innerHTML = channel;
         return channel
     }
 };
