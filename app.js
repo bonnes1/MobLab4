@@ -30,6 +30,7 @@ saveEvent = (data) => {
 };
 
 directionArray =(channel) => {
+    document.querySelector('testing').innerHTML = channel + north + west + east + south ;
     if(channel === 'North')
     {
         return north
@@ -51,7 +52,7 @@ directionArray =(channel) => {
 
 handleMsg= (array) => {
     let output = document.getElementById('get');
-    output.innerHTML = "";
+    //output.innerHTML = "";
     array.forEach(item => {
         let msg = document.createElement('div');
         msg.setAttribute('id', 'msg');
@@ -59,8 +60,6 @@ handleMsg= (array) => {
         //linebreak = document.createElement("br");
         output.appendChild(msg);
     })
-
-
 };
 
 pubnubDemo.addListener({
