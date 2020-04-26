@@ -7,7 +7,6 @@ let {south,north,east,west} = [];
 pubnubDemo.addListener({
     message:function(event){
         saveEvent(event);
-        window.addEventListener('deviceorientation', handleData, true);
     }
 });
 
@@ -15,22 +14,22 @@ saveEvent = (data) => {
     if(data.channel === 'North')
     {
         north.push(data);
-        return north
+        return handleData(north)
     }
     if(data.channel === 'West')
     {
         west.push(data);
-        return west;
+        return handleData(west);
     }
     if(data.channel === 'South')
     {
         south.push(data);
-        return south
+        return handleData(south)
     }
     if(data.channel === 'East')
     {
         east.push(data);
-        return east
+        return handleData(east)
     }
 
 };
