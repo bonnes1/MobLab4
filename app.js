@@ -30,7 +30,8 @@ saveEvent = (data) => {
 };
 
 directionArray =(channel) => {
-    document.querySelector('testing').innerHTML = channel + north + west + east + south ;
+    let test = document.querySelector('testing');
+    test.appendChild(document.createTextNode(channel + " - " + north + west + east + south )) ;
     if(channel === 'North')
     {
         return north
