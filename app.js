@@ -4,80 +4,48 @@ let pubnubDemo = new PubNub({
 });
 
 let {south,north,east,west} = [];
-pubnubDemo.addListener({
-    message:function(event){
-        saveEvent(event);
-    }
-});
 
+pubnubDemo.subscribe({
+    channels: ['South','North','West','East']
+});
 saveEvent = (data) => {
     if(data.channel === 'North')
     {
         north.push(data);
-        return handleData(north)
+        return north
     }
     if(data.channel === 'West')
     {
         west.push(data);
-        return handleData(west);
+        return west
     }
     if(data.channel === 'South')
     {
         south.push(data);
-        return handleData(south)
+        return south
     }
     if(data.channel === 'East')
     {
         east.push(data);
-        return handleData(east)
+        return east
     }
 
 };
-pubnubDemo.subscribe({
-    channels: ['South','North','West','East']
-});
-handleData = () => {
+
+
+handleMsg= (array) => {
     let output = document.getElementById('get');
+    output.innerHTML = "";
     let channelName = document.getElementById('channelName');
-    if(east.length !== 0){
-    if (getChannel() === 'North') {
-        channelName.appendChild(document.createTextNode(north[0].channel));
-        north.forEach(item => {
-            output.appendChild(document.createTextNode(item.message.message));
-            linebreak = document.createElement("br");
-            output.appendChild(linebreak);
-        })
-    }
-    }
-    else if (getChannel() === 'South') {
-        channelName.appendChild(document.createTextNode(south[0].channel));
-        if(east.length !== 0) {
-            south.forEach(item => {
-                output.appendChild(document.createTextNode(item.message.message));
-                linebreak = document.createElement("br");
-                output.appendChild(linebreak);
+    if (array.length !== 0) {
+            channelName.appendChild(document.createTextNode(array[0].channel));
+            north.forEach(item => {
+                let msg = document.createElement('div');
+                msg.setAttribute('id', 'msg');
+                msg.appendChild(document.createTextNode(item.message.message));
+                //linebreak = document.createElement("br");
+                output.appendChild(msg);
             })
-        }
-    }
-    else if (getChannel() === 'West') {
-        channelName.appendChild(document.createTextNode(west[0].channel));
-        if(east.length !== 0) {
-            west.forEach(item => {
-                output.appendChild(document.createTextNode(item.message.message));
-                linebreak = document.createElement("br");
-                output.appendChild(linebreak);
-            })
-        }
-    }
-    else if (getChannel() === 'East') {
-        channelName.appendChild(document.createTextNode(east[0].channel));
-        if(east.length !== 0){
-            east.forEach( item => {
-                output.appendChild(document.createTextNode(item.message.message));
-                linebreak = document.createElement("br");
-                output.appendChild(linebreak);
-            })
-        }
     }
 };
 
@@ -87,31 +55,40 @@ getChannel = () => {
     let dir = parseInt(orientation);
     if (dir != null) {
         if(45 > dir || dir >315){
-            channel = "North"
+            channel = "North";
+            return channel
         }
         if (45<dir && dir <135) {
-            channel = "East"
+            channel = "East";
+            return channel
         }
         if (dir >135 && dir < 225) {
-            channel = "South"
+            channel = "South";
+            return channel
         }
         if (dir >225 && dir <315) {
-            channel = "West"
+            channel = "West";
+            return channel
         }
     }
-    else {
-        channel = 'demo_tutorial'
-    }
-    return channel
 };
 let sendMsg =()=> {
     let input = document.querySelector('.message');
+    let channel = getChannel();
     //console.log(input.value);
     if( input.value !== "") {
-        pubnubDemo.publish({ message: { "message" : input.value }, channel: getChannel() }).catch(err => console.log(err.message));
+        pubnubDemo.publish({ message: { "message" : input.value }, channel: channel }).catch(err => console.log(err.message));
     }
-    input.value = "";
+    input.value = null;
 };
+
+pubnubDemo.addListener({
+    message:function(event){
+        saveEvent(event);
+    }
+});
+
+
 function orientationDetection() {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission()
@@ -133,7 +110,7 @@ function handleOrientation(event)
         heading = event.webkitCompassHeading;
         console.log(heading)
     }
-    console.log(heading);
+    handleMsg();
     document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
 
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
