@@ -53,8 +53,8 @@ handleMsg= (array) => {
     let output = document.getElementById('get');
     output.innerHTML = "";
     let channelName = document.getElementById('channelName');
+    channelName.appendChild(document.createTextNode(array[0].channel));
     if (array.length !== 0) {
-            channelName.appendChild(document.createTextNode(array[0].channel));
             array.forEach(item => {
                 let msg = document.createElement('div');
                 msg.setAttribute('id', 'msg');
@@ -124,9 +124,8 @@ function handleOrientation(event)
     if (typeof event.webkitCompassHeading !== "undefined") {
         heading = event.webkitCompassHeading;
     }
-    handleMsg(directionArray(getChannel()));
     document.querySelector("#getLocation").innerHTML = heading.toFixed([0]);
-
+    handleMsg(directionArray(getChannel()));
     //heading - 0 - 360,  45>Norr>315, 45<East<135, 135<south<225, 225<west<315
 }
 }
